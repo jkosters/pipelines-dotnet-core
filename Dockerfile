@@ -4,11 +4,17 @@
 
 # Create a container with the compiled asp.net core app
 FROM microsoft/aspnetcore:2.0 AS base
+# Create src directory
+WORKDIR /src
+COPY dotnetcore-sample/out .
 
-FROM base AS final
-
+FROM microsoft/aspnetcore:2.0 AS final
 # Create app directory
 WORKDIR /app
+COPY --from=base /src .
+
+
+
 
 # Copy files from the artifact staging folder on agent
 COPY dotnetcore-sample/out .
