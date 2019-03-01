@@ -6,17 +6,13 @@
 FROM microsoft/aspnetcore:2.0 AS base
 # Create src directory
 WORKDIR /src
+# Copy files from the artifact staging folder on agent
 COPY dotnetcore-sample/out .
 
 FROM microsoft/aspnetcore:2.0 AS final
 # Create app directory
 WORKDIR /app
+# Copy files from the base container
 COPY --from=base /src .
-
-
-
-
-# Copy files from the artifact staging folder on agent
-COPY dotnetcore-sample/out .
 
 ENTRYPOINT ["dotnet", "dotnetcore-sample.dll"]
